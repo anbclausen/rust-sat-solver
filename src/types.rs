@@ -10,3 +10,12 @@ pub struct Problem {
     pub num_vars: i32,
     pub clauses: Vec<Clause>,
 }
+
+/// An assignment is a set of literals or their negation.
+pub type Assignment = Vec<Literal>;
+
+#[derive(Debug)]
+pub enum Res {
+    Satisfiable(Assignment),
+    Unsatisfiable,
+}
