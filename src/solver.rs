@@ -10,7 +10,7 @@ fn check(assignment: &Assignment, clauses: &Vec<Clause>) -> Res {
     Res::Satisfiable(assignment.clone())
 }
 
-pub fn naive(problem: &Problem) -> Res {
+fn naive(problem: &Problem) -> Res {
     fn naive_helper(problem: &Problem, assignment: Assignment, var: i32) -> Res {
         if var > problem.num_vars {
             return Res::Unsatisfiable;
@@ -41,4 +41,8 @@ pub fn naive(problem: &Problem) -> Res {
     }
     let assignment = Vec::new();
     naive_helper(problem, assignment, 1)
+}
+
+pub fn solve(problem: &Problem) -> Res {
+    naive(problem)
 }
