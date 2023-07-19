@@ -22,23 +22,17 @@ fn naive(problem: &Problem) -> Res {
         let mut negative_assignment = assignment.to_vec();
         negative_assignment.push(-var);
 
-        let positive_assignment_satisfiable = match check(&positive_assignment, &problem.clauses) {
-            Res::Unsatisfiable => naive_helper(problem, positive_assignment, var + 1),
+        let rec_check = |assignment: Assignment| match check(&assignment, &problem.clauses) {
+            Res::Unsatisfiable => naive_helper(problem, assignment, var + 1),
             satisfiable => satisfiable,
         };
 
-        match positive_assignment_satisfiable {
-            Res::Unsatisfiable => {
-                match check(&negative_assignment, &problem.clauses) {
-                    Res::Unsatisfiable => naive_helper(problem, negative_assignment, var + 1),
-                    satisfiable => satisfiable,
-                }
-            },
+        match rec_check(positive_assignment) {
+            Res::Unsatisfiable => rec_check(negative_assignment),
             satisfiable => satisfiable,
         }
-
-
     }
+
     let assignment = Vec::new();
     naive_helper(problem, assignment, 1)
 }
